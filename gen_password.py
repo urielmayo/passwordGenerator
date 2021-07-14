@@ -1,6 +1,6 @@
 import os
 import random
-from string import ascii_uppercase, ascii_lowercase, punctuation
+import string
 
 #MACROS
 FILE_DIR = './files'
@@ -9,20 +9,16 @@ SPECIAL_CHARS_ENABLED = 's_c_e'
 FILE_NAME_INPUT = 'f_n'
 
 def generate_password(length, special_chars = False):
-    upper_letters = list(ascii_uppercase)
-    lower_letters = list(ascii_lowercase)
-    special_characters = list(punctuation)
-    numbers = [str(number) for number in range(10)]
-
-
-    total_characters = upper_letters + lower_letters + numbers
+    letters = string.ascii_letters
+    numbers = string.digits
+    
+    special_characters = string.punctuation
+    total_characters = letters + numbers
     
     if special_chars:
         total_characters += special_characters
 
-    password = [random.choice(total_characters) for i in range (length)]
-    password = "".join(password)
-    
+    password = "".join(random.choices(total_characters, k=length))
     return password
 
 def verify_input(input_type, file_name=''):
@@ -80,7 +76,7 @@ def main():
         special_chars_enabled = False
     '''    
     password = generate_password(length, special_chars_enabled)
-    print(f'''new password created: {password}, 
+    print(f'''new password created: *** {password} *** 
     saving it in {file_name}.txt''')
 
     create_file(file_name, password)
